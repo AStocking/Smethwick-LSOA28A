@@ -38,7 +38,7 @@ html, body {
     min-width: 600px;
 }
 
-/* Title with info icon */
+/* Title with info icons */
 .map-title {
     font-size: 20px;
     font-weight: bold;
@@ -52,11 +52,15 @@ html, body {
     position: relative;
 }
 
-#info-button {
+.map-title span {
     font-size: 20px;
     cursor: pointer;
-    color: #007bff;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
+
+#info-button { color: #007bff; }
+#benefits-button { color: #28a745; }
 
 /* Map container */
 #map {
@@ -81,17 +85,14 @@ html, body {
 .side-image::-webkit-scrollbar {
     width: 8px;
 }
-
 .side-image::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 4px;
 }
-
 .side-image::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 4px;
 }
-
 .side-image::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
@@ -103,8 +104,8 @@ html, body {
     display: block;
 }
 
-/* Info popup below icon */
-#info-popup {
+/* Popup common styling */
+.popup-info {
     position: absolute;
     top: 100%;
     left: 0;
@@ -120,15 +121,18 @@ html, body {
     z-index: 1000;
 }
 
-#info-popup-close {
+.popup-info button {
     margin-top: 10px;
     padding: 5px 10px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
+
+/* Specific button colors */
+#info-popup button { background-color: #007bff; }
+#benefits-popup button { background-color: #28a745; }
 
 /* Table color coding */
 .info-table th, .info-table td {
@@ -152,7 +156,7 @@ html, body {
         min-width: 100%;
         height: 50vh;
     }
-    #info-popup {
+    .popup-info {
         width: 90%;
         left: 5%;
         top: 120%;
@@ -168,16 +172,18 @@ html, body {
     <div class="map-wrapper">
         <div class="map-title">
             LSOA 28A - Smethwick
-            <span id="info-button" title="Click for LSOA 28A Details">IMD2025 i</span>
 
-            <!-- Info popup -->
-            <div id="info-popup">
+            <!-- Info icons -->
+            <span id="info-button" title="Click for LSOA 28A Details">IMD2025 i</span>
+            <span id="benefits-button" title="Click for Benefits Summary">💷</span>
+
+            <!-- Info Popup -->
+            <div id="info-popup" class="popup-info">
                 <div id="info-popup-content">
                     <h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
                     <p><strong>Area:</strong> LSOA 028A, Smethwick, Sandwell (Lower-layer Super Output Area)<br>
                     <strong>Dataset:</strong> English Indices of Deprivation 2025 (IMD25), published October 2025 by MHCLG/Communities & Local Government
                     </p>
-
                     <h4>Key Insights</h4>
                     <ol>
                         <li><strong>Very High Relative Deprivation:</strong>
@@ -200,14 +206,12 @@ html, body {
                             </ul>
                         </li>
                     </ol>
-
                     <h4>Implications for Policy & Planning</h4>
                     <ul>
                         <li>Priority for investment in income support, employment services, education/training.</li>
                         <li>Health & wellbeing programs needed.</li>
                         <li>Improve access to housing and services.</li>
                     </ul>
-
                     <h4>One-Page Visual Briefing for Map Layer (IMD25)</h4>
                     <table class="info-table">
                         <thead>
@@ -260,13 +264,55 @@ html, body {
                             </tr>
                         </tbody>
                     </table>
-
                     <p style="font-size: 0.85em; margin-top: 10px;">
                         <strong>Data Source:</strong> English Indices of Deprivation 2025 (IMD25), MHCLG/Communities & Local Government. LSOA boundary data available for GIS mapping from the official portal.
                     </p>
                 </div>
-                <button id="info-popup-close">Close</button>
+                <button>Close</button>
             </div>
+
+            <!-- Benefits Popup -->
+            <div id="benefits-popup" class="popup-info">
+                <div id="benefits-popup-content">
+                    <h3>📋 Sandwell 028A – Benefits Summary (May 2025)</h3>
+                    <p>
+                        Sandwell 028A shows high levels of benefit dependency across working-age and older residents, with a significant proportion affected by worklessness, disability, and income support needs. Out-of-work claimants are primarily supported by Universal Credit, while older residents rely on a combination of State Pension, Pension Credit, Housing Benefit, and disability support. Health and disability-related benefits are present in both working-age and older populations, highlighting the need for integrated, multi-agency interventions.
+                    </p>
+                    <h4>Headline Facts</h4>
+                    <ul>
+                        <li><strong>Population:</strong> 2,231 (ONS 2024 estimate)</li>
+                        <li><strong>Total benefit claimants:</strong> 925 (May 2025), 41.5% of population</li>
+                    </ul>
+                    <h4>Working Age – Out of Work</h4>
+                    <ul>
+                        <li>Out-of-work claimants: 442 (19.8% of population; 47.8% of claimants)</li>
+                        <li>Universal Credit (out of work/no work requirements): 370 (16.6% of population)</li>
+                        <li>Incapacity benefits (INCAP): 58 (2.6% of population)</li>
+                        <li>UC & INCAP: 14 (0.6% of population)</li>
+                        <li>Working-age, not out of work: 167 (7.5% of population)</li>
+                    </ul>
+                    <h4>State Pension Age</h4>
+                    <ul>
+                        <li>SPA claimants: 283 (12.7% of population)</li>
+                        <li>State Pension only: 58 (2.6% of population)</li>
+                        <li>SP + disability (PIP/DLA/AA): 35 (1.6% of population)</li>
+                        <li>SP + Pension Credit + Housing Benefit + disability: 58 (2.6% of population)</li>
+                    </ul>
+                    <h4>Other Key Facts</h4>
+                    <ul>
+                        <li>~2 in 5 residents are on a DWP benefit</li>
+                        <li>~1 in 5 residents are working-age and out of work</li>
+                        <li>UC supports ~1 in 6 residents</li>
+                        <li>At least 1 in 8 residents are SPA benefit claimants</li>
+                        <li>Health/disability-related benefits affect ≥4–5% of residents</li>
+                    </ul>
+                    <p style="font-size: 0.85em;">
+                        <strong>Notes:</strong> Small numbers suppressed (..). Totals may not sum exactly due to disclosure control. Counts represent individuals, not households.
+                    </p>
+                </div>
+                <button>Close</button>
+            </div>
+
         </div>
 
         <div id="map">
@@ -292,7 +338,7 @@ html, body {
 <script src="./resources/ol-layerswitcher.js"></script>
 <script src="resources/photon-geocoder-autocomplete.min.js"></script>
 
-<!-- Map Layers -->
+<!-- Map Layers & Styles -->
 <script src="layers/SmethwickCanals_0.js"></script>
 <script src="layers/LSOA28ASmethwick_1.js"></script>
 <script src="layers/SmethwickMetro_2.js"></script>
@@ -309,7 +355,6 @@ html, body {
 <script src="layers/LSOA28AFlyPostingGraffitti_13.js"></script>
 <script src="layers/LSOA28ADangerousLitter_14.js"></script>
 
-<!-- Map Styles -->
 <script src="styles/SmethwickCanals_0_style.js"></script>
 <script src="styles/LSOA28ASmethwick_1_style.js"></script>
 <script src="styles/SmethwickMetro_2_style.js"></script>
@@ -330,31 +375,37 @@ html, body {
 <script src="./resources/Autolinker.min.js"></script>
 <script src="./resources/qgis2web.js"></script>
 
-<!-- Info popup toggle -->
+<!-- Popup toggle JS -->
 <script>
-const infoButton = document.getElementById('info-button');
-const infoPopup = document.getElementById('info-popup');
-const infoClose = document.getElementById('info-popup-close');
+function setupPopup(buttonId, popupId) {
+    const button = document.getElementById(buttonId);
+    const popup = document.getElementById(popupId);
+    const closeBtn = popup.querySelector('button');
 
-infoButton.addEventListener('click', () => {
-    infoPopup.style.display = infoPopup.style.display === 'block' ? 'none' : 'block';
-});
+    button.addEventListener('click', () => {
+        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    });
 
-// Close button
-infoClose.addEventListener('click', () => {
-    infoPopup.style.display = 'none';
-});
+    closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
 
-// Close popup when clicking outside
-document.addEventListener('click', (e) => {
-    if (!infoPopup.contains(e.target) && e.target !== infoButton) {
-        infoPopup.style.display = 'none';
-    }
-});
+    document.addEventListener('click', (e) => {
+        if (!popup.contains(e.target) && e.target !== button) {
+            popup.style.display = 'none';
+        }
+    });
+}
+
+// Initialize popups
+setupPopup('info-button', 'info-popup');
+setupPopup('benefits-button', 'benefits-popup');
 </script>
 
 </body>
 </html>
+
+
 
 
 
