@@ -53,7 +53,7 @@
         #header {
             position: fixed;
             top: 10px;
-            left: 10px;
+            left: 70px; /* moved right to avoid zoom controls */
             padding: 10px 20px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
@@ -77,51 +77,34 @@
             cursor: pointer;
         }
 
-        /* Collapsible right-side image panel */
-        #image-panel {
+        /* Fixed right-side layers panel */
+        #layers-panel {
             position: fixed;
-            top: 50px;
-            right: 0;
-            width: 0;              /* start collapsed */
-            overflow: hidden;
-            z-index: 1000;
-            transition: width 0.3s ease;
+            top: 50px;             /* distance from top */
+            right: 10px;           /* distance from right */
+            width: 300px;          /* panel width */
             background-color: rgba(255,255,255,0.9);
-            border-radius: 8px 0 0 8px;
-            box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
-        }
-
-        #image-panel.expanded {
-            width: 320px;           /* expanded width */
-        }
-
-        /* Toggle button for panel */
-        #toggle-btn {
-            position: absolute;
-            left: -25px;
-            top: 10px;
-            width: 25px;
-            height: 40px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px 0 0 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* Image container inside panel */
-        #image-content {
             padding: 10px;
+            border-radius: 8px;
+            box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+            z-index: 1000;         /* above map */
+            text-align: center;
         }
 
-        #image-content img {
+        /* Label above the image */
+        #layers-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* Image styling */
+        #layers-panel img {
             width: 100%;
             height: auto;
-            display: block;
             border-radius: 5px;
+            display: block;
         }
 
     </style>
@@ -137,12 +120,10 @@
         <i class="fas fa-layer-group header-icon" title="Layers"></i>
     </div>
 
-    <!-- Collapsible right-side image panel -->
-    <div id="image-panel">
-        <button id="toggle-btn">▶</button>
-        <div id="image-content">
-            <img src="Smethwick ONS.png" alt="Smethwick ONS">
-        </div>
+    <!-- Fixed right-side layers panel -->
+    <div id="layers-panel">
+        <div id="layers-label">Layers</div>
+        <img src="Smethwick ONS.png" alt="Smethwick ONS">
     </div>
 
     <!-- Map container -->
@@ -196,19 +177,10 @@
     <script src="./resources/Autolinker.min.js"></script>
     <script src="./resources/qgis2web.js"></script>
 
-    <!-- Collapsible image panel JS -->
-    <script>
-        const panel = document.getElementById('image-panel');
-        const btn = document.getElementById('toggle-btn');
-
-        btn.addEventListener('click', () => {
-            panel.classList.toggle('expanded');
-            btn.textContent = panel.classList.contains('expanded') ? '◀' : '▶';
-        });
-    </script>
-
 </body>
 </html>
+
+
 
 
 
