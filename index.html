@@ -181,11 +181,96 @@ html, body {
             <span id="benefits-button" title="Click for Benefits Summary">💷</span>
             <span id="attendance-button" title="Click for School Attendance">🎓</span>
 
-            <!-- Info Popup -->
+            <!-- IMD2025 i Popup -->
             <div id="info-popup" class="popup-info">
                 <div id="info-popup-content">
                     <h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
-                    <!-- ... (existing IMD content unchanged) ... -->
+                    <p><strong>Area:</strong> LSOA 028A, Smethwick, Sandwell (Lower-layer Super Output Area)<br>
+                    <strong>Dataset:</strong> English Indices of Deprivation 2025 (IMD25), published October 2025 by MHCLG/Communities & Local Government
+                    </p>
+                    <h4>Key Insights</h4>
+                    <ol>
+                        <li><strong>Very High Relative Deprivation:</strong>
+                            <ul>
+                                <li>Ranked in the bottom national deciles on the Index of Multiple Deprivation 2025.</li>
+                                <li>Among Sandwell’s most deprived LSOAs.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Main Contributors to Deprivation:</strong>
+                            <ul>
+                                <li><strong>Income and Employment Deprivation:</strong> High proportions of residents live on low incomes and face employment barriers.</li>
+                                <li><strong>Children & Older People:</strong> Significant income deprivation.</li>
+                                <li><strong>Other Domains:</strong> Challenges in education, health, and access to housing/services.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Broader Local Context:</strong>
+                            <ul>
+                                <li>Sandwell has a sizeable share of LSOAs in the worst 20% nationally.</li>
+                                <li>Smethwick shows high deprivation across multiple domains.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <h4>Implications for Policy & Planning</h4>
+                    <ul>
+                        <li>Priority for investment in income support, employment services, education/training.</li>
+                        <li>Health & wellbeing programs needed.</li>
+                        <li>Improve access to housing and services.</li>
+                    </ul>
+                    <h4>One-Page Visual Briefing for Map Layer (IMD25)</h4>
+                    <table class="info-table">
+                        <thead>
+                            <tr>
+                                <th>Indicator</th>
+                                <th>What It Shows (Relative to All England LSOAs)</th>
+                                <th>Interpretation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>IMD25 Rank / Decile</td>
+                                <td class="high">Bottom deciles — highly deprived nationally</td>
+                                <td>One of the more deprived neighbourhoods in the country.</td>
+                            </tr>
+                            <tr>
+                                <td>Income Deprivation (22.5%)</td>
+                                <td class="high">High compared to national average</td>
+                                <td>Large proportion of residents on low incomes or benefit-dependent.</td>
+                            </tr>
+                            <tr>
+                                <td>Employment Deprivation (22.5%)</td>
+                                <td class="high">Elevated</td>
+                                <td>Many working-age residents face barriers to employment.</td>
+                            </tr>
+                            <tr>
+                                <td>Education & Skills (13.5%)</td>
+                                <td class="medium">Below average attainment/skills</td>
+                                <td>Lower rates of higher qualification attainment.</td>
+                            </tr>
+                            <tr>
+                                <td>Health Deprivation & Disability (13.5%)</td>
+                                <td class="high">High risk</td>
+                                <td>Adverse health outcomes likely more prevalent.</td>
+                            </tr>
+                            <tr>
+                                <td>Barriers to Housing & Services (9.3%)</td>
+                                <td class="medium">Notably constrained</td>
+                                <td>Issues with affordability/geographical access.</td>
+                            </tr>
+                            <tr>
+                                <td>Living Environment Deprivation (9.3%)</td>
+                                <td class="medium">Poorer environment</td>
+                                <td>Housing quality and outdoor environment challenges.</td>
+                            </tr>
+                            <tr>
+                                <td>Crime (9.3%)</td>
+                                <td class="high">Higher than average risk</td>
+                                <td>Safety and crime concerns contribute to deprivation.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size: 0.85em; margin-top: 10px;">
+                        <strong>Data Source:</strong> English Indices of Deprivation 2025 (IMD25), MHCLG/Communities & Local Government. LSOA boundary data available for GIS mapping from the official portal.
+                    </p>
                 </div>
                 <button>Close</button>
             </div>
@@ -194,7 +279,40 @@ html, body {
             <div id="benefits-popup" class="popup-info">
                 <div id="benefits-popup-content">
                     <h3>📋 Sandwell 028A – Benefits Summary (May 2025)</h3>
-                    <!-- ... (existing Benefits content unchanged) ... -->
+                    <p>
+                        Sandwell 028A shows high levels of benefit dependency across working-age and older residents, with a significant proportion affected by worklessness, disability, and income support needs. Out-of-work claimants are primarily supported by Universal Credit, while older residents rely on a combination of State Pension, Pension Credit, Housing Benefit, and disability support. Health and disability-related benefits are present in both working-age and older populations, highlighting the need for integrated, multi-agency interventions.
+                    </p>
+                    <h4>Headline Facts</h4>
+                    <ul>
+                        <li><strong>Population:</strong> 2,231 (ONS 2024 estimate)</li>
+                        <li><strong>Total benefit claimants:</strong> 925 (May 2025), 41.5% of population</li>
+                    </ul>
+                    <h4>Working Age – Out of Work</h4>
+                    <ul>
+                        <li>Out-of-work claimants: 442 (19.8% of population; 47.8% of claimants)</li>
+                        <li>Universal Credit (out of work/no work requirements): 370 (16.6% of population)</li>
+                        <li>Incapacity benefits (INCAP): 58 (2.6% of population)</li>
+                        <li>UC & INCAP: 14 (0.6% of population)</li>
+                        <li>Working-age, not out of work: 167 (7.5% of population)</li>
+                    </ul>
+                    <h4>State Pension Age</h4>
+                    <ul>
+                        <li>SPA claimants: 283 (12.7% of population)</li>
+                        <li>State Pension only: 58 (2.6% of population)</li>
+                        <li>SP + disability (PIP/DLA/AA): 35 (1.6% of population)</li>
+                        <li>SP + Pension Credit + Housing Benefit + disability: 58 (2.6% of population)</li>
+                    </ul>
+                    <h4>Other Key Facts</h4>
+                    <ul>
+                        <li>~2 in 5 residents are on a DWP benefit</li>
+                        <li>~1 in 5 residents are working-age and out of work</li>
+                        <li>UC supports ~1 in 6 residents</li>
+                        <li>At least 1 in 8 residents are SPA benefit claimants</li>
+                        <li>Health/disability-related benefits affect ≥4–5% of residents</li>
+                    </ul>
+                    <p style="font-size: 0.85em;">
+                        <strong>Notes:</strong> Small numbers suppressed (..). Totals may not sum exactly due to disclosure control. Counts represent individuals, not households.
+                    </p>
                 </div>
                 <button>Close</button>
             </div>
@@ -332,6 +450,8 @@ setupPopup('attendance-button', 'attendance-popup');
 
 </body>
 </html>
+
+
 
 
 
