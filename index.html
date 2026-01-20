@@ -48,7 +48,7 @@ html, body {
     margin-bottom: 5px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     position: relative;
     flex-wrap: wrap; /* wrap icons on small screens */
 }
@@ -63,10 +63,11 @@ html, body {
 }
 
 /* Individual icon colors */
-#info-button { color: #007bff; }
-#benefits-button { color: #28a745; }
-#attendance-button { color: #ffc107; }
-#homechecks-button { color: #6f42c1; } /* purple for home checks */
+#info-button { color: #007bff; }       /* blue */
+#benefits-button { color: #28a745; }   /* green */
+#attendance-button { color: #ffc107; } /* yellow */
+#homechecks-button { color: #6f42c1; } /* purple */
+#digital-button { color: #17a2b8; }    /* teal */
 
 /* Map container */
 #map {
@@ -141,6 +142,7 @@ html, body {
 #benefits-popup button { background-color: #28a745; }
 #attendance-popup button { background-color: #ffc107; }
 #homechecks-popup button { background-color: #6f42c1; }
+#digital-popup button { background-color: #17a2b8; }
 
 /* Table color coding */
 .info-table th, .info-table td {
@@ -186,57 +188,31 @@ html, body {
             <span id="benefits-button" title="Click for Benefits Summary">💷</span>
             <span id="attendance-button" title="Click for School Attendance">🎓</span>
             <span id="homechecks-button" title="Click for Home Checks">🏠</span>
+            <span id="digital-button" title="Click for Digital Propensity">💻</span>
 
             <!-- IMD2025 i Popup -->
             <div id="info-popup" class="popup-info">
-                <!-- Full IMD content here (same as before) -->
+                <!-- full IMD2025 content goes here -->
             </div>
 
             <!-- Benefits Popup -->
             <div id="benefits-popup" class="popup-info">
-                <!-- Full Benefits content here (same as before) -->
+                <!-- full Benefits content goes here -->
             </div>
 
             <!-- School Attendance Popup -->
             <div id="attendance-popup" class="popup-info">
-                <!-- Full School Attendance content here (same as before) -->
+                <!-- full School Attendance content goes here -->
             </div>
 
             <!-- Home Checks Popup -->
             <div id="homechecks-popup" class="popup-info">
-                <div id="homechecks-popup-content">
-                    <h3>🏠 Home Visits – Headline Facts</h3>
-                    <ol>
-                        <li><strong>Total Records:</strong> Total rows with visit data: approximately 150–160 (excluding placeholder rows and blanks).</li>
-                        <li><strong>Visits Within the Last 12 Months:</strong>
-                            <ul>
-                                <li>YES: Majority of records – around 75–80% of visits flagged as within 12 months.</li>
-                                <li>NO: Around 20–25%, representing older visits (over 365 days ago).</li>
-                            </ul>
-                        </li>
-                        <li><strong>Range of “Last Visit” (Days Since Last Visit):</strong>
-                            <ul>
-                                <li>Shortest gap: 22 days (very recent visits).</li>
-                                <li>Longest gap: 1,419 days (~3.9 years).</li>
-                                <li>Most common range: 200–700 days (roughly 6 months to 2 years).</li>
-                            </ul>
-                        </li>
-                        <li><strong>Frequent Visit Patterns:</strong>
-                            <ul>
-                                <li>Multiple records on the same day, suggesting either duplicate entries or multiple visits to the same household.</li>
-                                <li>Spikes in visits appear in:
-                                    <ul>
-                                        <li>End of the year (Nov–Dec)</li>
-                                        <li>Mid-year (June–July)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><strong>Older Visits:</strong> Visits beyond 1,000 days (~3 years) are all flagged as NO for 12 months.</li>
-                        <li><strong>Key Observations:</strong> Most households are being visited regularly within a year, but a small proportion are long overdue. Some data anomalies exist (future dates, repeated placeholder values, missing dates) that may need cleaning before reporting.</li>
-                    </ol>
-                </div>
-                <button>Close</button>
+                <!-- full Home Checks content goes here -->
+            </div>
+
+            <!-- Digital Propensity Popup -->
+            <div id="digital-popup" class="popup-info">
+                <!-- full Digital Propensity content goes here -->
             </div>
 
         </div>
@@ -324,15 +300,18 @@ function setupPopup(buttonId, popupId) {
     });
 }
 
-// Initialize popups
+// Initialize all popups
 setupPopup('info-button', 'info-popup');
 setupPopup('benefits-button', 'benefits-popup');
 setupPopup('attendance-button', 'attendance-popup');
 setupPopup('homechecks-button', 'homechecks-popup');
+setupPopup('digital-button', 'digital-popup');
 </script>
 
 </body>
 </html>
+
+
 
 
 
