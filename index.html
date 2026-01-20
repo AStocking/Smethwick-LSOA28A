@@ -76,6 +76,54 @@
             color: #555;
             cursor: pointer;
         }
+
+        /* Collapsible right-side image panel */
+        #image-panel {
+            position: fixed;
+            top: 50px;
+            right: 0;
+            width: 0;              /* start collapsed */
+            overflow: hidden;
+            z-index: 1000;
+            transition: width 0.3s ease;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 8px 0 0 8px;
+            box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+        }
+
+        #image-panel.expanded {
+            width: 320px;           /* expanded width */
+        }
+
+        /* Toggle button for panel */
+        #toggle-btn {
+            position: absolute;
+            left: -25px;
+            top: 10px;
+            width: 25px;
+            height: 40px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Image container inside panel */
+        #image-content {
+            padding: 10px;
+        }
+
+        #image-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 5px;
+        }
+
     </style>
 
     <title>Smethwick LSOA28A Map</title>
@@ -85,9 +133,16 @@
     <!-- Top-left floating header -->
     <div id="header">
         <h1>Smethwick LSOA28A Map</h1>
-        <!-- Example buttons/icons (Font Awesome) -->
         <i class="fas fa-info-circle header-icon" title="Info"></i>
         <i class="fas fa-layer-group header-icon" title="Layers"></i>
+    </div>
+
+    <!-- Collapsible right-side image panel -->
+    <div id="image-panel">
+        <button id="toggle-btn">▶</button>
+        <div id="image-content">
+            <img src="Smethwick ONS.png" alt="Smethwick ONS">
+        </div>
     </div>
 
     <!-- Map container -->
@@ -140,7 +195,21 @@
     <script src="./layers/layers.js" type="text/javascript"></script> 
     <script src="./resources/Autolinker.min.js"></script>
     <script src="./resources/qgis2web.js"></script>
+
+    <!-- Collapsible image panel JS -->
+    <script>
+        const panel = document.getElementById('image-panel');
+        const btn = document.getElementById('toggle-btn');
+
+        btn.addEventListener('click', () => {
+            panel.classList.toggle('expanded');
+            btn.textContent = panel.classList.contains('expanded') ? '◀' : '▶';
+        });
+    </script>
+
 </body>
 </html>
+
+
 
 
