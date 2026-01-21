@@ -2,55 +2,59 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-<title>Smethwick LSOA Map</title>
+<title>LSOA 028A – Smethwick Insight Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="./resources/ol.css">
-<link rel="stylesheet" href="./resources/ol-layerswitcher.css">
-<link rel="stylesheet" href="./resources/qgis2web.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
 
 <style>
 html, body {
     margin: 0;
-    height: 100%;
+    padding: 0;
     font-family: Arial, sans-serif;
 }
 
-.container {
-    display: flex;
+#map {
+    width: 100%;
     height: 100vh;
-    gap: 10px;
-    padding: 10px;
-    box-sizing: border-box;
 }
 
-.map-wrapper {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    min-width: 600px;
-}
-
+/* Title bar */
 .map-title {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 8px 12px;
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    position: relative;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    z-index: 1000;
 }
 
+.map-title strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* Icon buttons */
 .map-title span {
-    font-size: 20px;
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #ccc;
     cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 4px;
+    margin-right: 4px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.map-title span:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
 }
 
 /* Icon colours */
@@ -59,170 +63,176 @@ html, body {
 #attendance-button { color: #ffc107; }
 #homechecks-button { color: #6f42c1; }
 #digital-button { color: #17a2b8; }
+#summary-button { color: #343a40; }
 
-#map {
-    flex: 1;
-    min-height: 500px;
-}
-
-/* Side panel */
-.side-image {
-    flex: 1;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background: #f8f8f8;
-    overflow-y: auto;
-}
-
-.side-image img {
-    width: 100%;
-}
-
-/* Popups */
+/* Popup styling */
 .popup-info {
     position: absolute;
-    top: 100%;
+    top: 46px;
     left: 0;
-    width: 420px;
-    max-height: 65vh;
     background: white;
     border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 12px;
+    width: 340px;
+    max-height: 420px;
     overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    border-radius: 6px;
     display: none;
-    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.popup-info.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.popup-info h3 {
+    margin-top: 0;
 }
 
 .popup-info button {
     margin-top: 10px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
 }
 
-#info-popup button { background: #007bff; }
-#benefits-popup button { background: #28a745; }
-#attendance-popup button { background: #ffc107; color: black; }
-#homechecks-popup button { background: #6f42c1; }
-#digital-popup button { background: #17a2b8; }
+/* Print mode */
+@media print {
+    #map,
+    .map-title span:not(#summary-button),
+    .ol-control {
+        display: none !important;
+    }
 
-@media (max-width: 700px) {
-    .container { flex-direction: column; }
-    .map-wrapper, .side-image { min-width: 100%; height: 50vh; }
-    .popup-info { width: 95%; left: 2.5%; }
+    .popup-info {
+        position: static;
+        display: block !important;
+        width: 100%;
+        max-height: none;
+        border: none;
+        box-shadow: none;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    button {
+        display: none;
+    }
 }
 </style>
 </head>
 
 <body>
-<div class="container">
-
-<div class="map-wrapper">
-<div class="map-title">
-    LSOA 28A – Smethwick
-    <span id="info-button">IMD2025 i</span>
-    <span id="benefits-button">💷</span>
-    <span id="attendance-button">🎓</span>
-    <span id="homechecks-button">🏠</span>
-    <span id="digital-button">💻</span>
-
-<!-- IMD POPUP -->
-<div id="info-popup" class="popup-info">
-<h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
-<p><strong>Dataset:</strong> English Indices of Deprivation 2025</p>
-
-<ul>
-<li><strong>Very high deprivation</strong> – bottom national deciles</li>
-<li>High income & employment deprivation</li>
-<li>Elevated health, crime & education challenges</li>
-</ul>
-
-<p><strong>Implications:</strong> Priority for investment, health services, skills and housing access.</p>
-<button>Close</button>
-</div>
-
-<!-- BENEFITS POPUP -->
-<div id="benefits-popup" class="popup-info">
-<h3>💷 Benefits Summary – May 2025</h3>
-<ul>
-<li><strong>Total claimants:</strong> 925 (41.5% of residents)</li>
-<li><strong>Out of work:</strong> 442 (19.8%)</li>
-<li><strong>UC only:</strong> 370</li>
-<li><strong>SPA claimants:</strong> 283</li>
-</ul>
-
-<p>High dependency on UC and disability-related benefits, affecting both working-age and older residents.</p>
-<button>Close</button>
-</div>
-
-<!-- ATTENDANCE POPUP -->
-<div id="attendance-popup" class="popup-info">
-<h3>🎓 School Attendance Overview</h3>
-<p>Attendance remains strong overall but shows increased variability in 2025.</p>
-
-<ul>
-<li><strong>2024:</strong> ~92% average attendance</li>
-<li><strong>2025:</strong> ~90–91%, more children in 80–90% range</li>
-<li>Unauthorized absences remain low overall</li>
-</ul>
-
-<p>Most absences are authorised, linked to illness rather than truancy.</p>
-<button>Close</button>
-</div>
-
-<!-- HOME CHECKS POPUP -->
-<div id="homechecks-popup" class="popup-info">
-<h3>🏠 Home Visits – Headline Facts</h3>
-<ul>
-<li>~150–160 visit records</li>
-<li>75–80% within last 12 months</li>
-<li>Oldest visit: ~3.9 years ago</li>
-<li>Common gaps: 6 months – 2 years</li>
-</ul>
-
-<p>Most households are visited regularly, but a small group are overdue. Some data quality issues identified.</p>
-<button>Close</button>
-</div>
-
-<!-- DIGITAL POPUP -->
-<div id="digital-popup" class="popup-info">
-<h3>💻 Digital Propensity – LSOA 028A</h3>
-
-<p><strong>DPI Score:</strong> 0.913 (below Sandwell average)</p>
-
-<ul>
-<li>Sandwell avg: ~0.933</li>
-<li>Highest: 0.979</li>
-<li>Lowest: 0.880</li>
-</ul>
-
-<p>Indicates moderate-low digital confidence. Offline alternatives and digital skills support are recommended.</p>
-<button>Close</button>
-</div>
-
-</div>
 
 <div id="map"></div>
+
+<div class="map-title">
+<strong>LSOA 028A – Smethwick</strong>
+
+<span id="info-button" title="IMD 2025">ℹ️</span>
+<span id="benefits-button" title="Benefits">💷</span>
+<span id="attendance-button" title="School Attendance">🎓</span>
+<span id="homechecks-button" title="Home Checks">🏠</span>
+<span id="digital-button" title="Digital Propensity">💻</span>
+<span id="summary-button" title="Executive Summary">📄</span>
+
+<!-- IMD -->
+<div id="info-popup" class="popup-info">
+<h3>IMD 2025 Overview</h3>
+<p>LSOA 028A is among the most deprived areas nationally, ranking in the highest deprivation deciles across income, employment, health, and living environment domains.</p>
+<button>Close</button>
 </div>
 
-<div class="side-image">
-<img src="Smethwick ONS.png" alt="ONS profile">
+<!-- Benefits -->
+<div id="benefits-popup" class="popup-info">
+<h3>Benefits</h3>
+<p>Over 40% of residents are in receipt of at least one DWP benefit, indicating high levels of income vulnerability and economic inactivity.</p>
+<button>Close</button>
 </div>
+
+<!-- Attendance -->
+<div id="attendance-popup" class="popup-info">
+<h3>School Attendance</h3>
+<p><strong>2024:</strong> Average attendance ~92%, unauthorized absences typically 2–5%.</p>
+<p><strong>2025:</strong> Attendance slightly lower (~90–91%), with higher variability and some cases of chronic absence.</p>
+<p>Most absences are authorized, suggesting illness rather than truancy.</p>
+<button>Close</button>
 </div>
+
+<!-- Home Checks -->
+<div id="homechecks-popup" class="popup-info">
+<h3>Home Visits</h3>
+<ul>
+<li>~75–80% of households visited within last 12 months</li>
+<li>Visit gaps range from 22 days to ~4 years</li>
+<li>Small number of long-overdue households</li>
+<li>Some duplicate or anomalous records present</li>
+</ul>
+<button>Close</button>
+</div>
+
+<!-- Digital -->
+<div id="digital-popup" class="popup-info">
+<h3>Digital Propensity</h3>
+<p>DPI Score: <strong>0.913</strong> (below Sandwell average of ~0.933).</p>
+<p>This suggests reduced confidence or access to online services.</p>
+<p>Offline or supported digital options remain important.</p>
+<button>Close</button>
+</div>
+
+<!-- Summary -->
+<div id="summary-popup" class="popup-info">
+<h3>Executive Summary</h3>
+<ul>
+<li>High deprivation (IMD 2025)</li>
+<li>High benefit dependency</li>
+<li>Attendance generally strong but uneven</li>
+<li>Some overdue home visits</li>
+<li>Below-average digital engagement</li>
+</ul>
+<p><strong>Implication:</strong> Targeted, in-person and joined-up services required.</p>
+<button onclick="window.print()">Print</button>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ol@latest/ol.js"></script>
 
 <script>
-function setupPopup(btn, pop) {
-    const b = document.getElementById(btn);
-    const p = document.getElementById(pop);
-    const c = p.querySelector("button");
+const map = new ol.Map({
+    target: 'map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+    ],
+    view: new ol.View({
+        center: ol.proj.fromLonLat([-1.97, 52.49]),
+        zoom: 14
+    })
+});
 
-    b.onclick = e => { e.stopPropagation(); p.style.display = p.style.display === "block" ? "none" : "block"; };
-    c.onclick = () => p.style.display = "none";
-    document.onclick = e => { if (!p.contains(e.target) && e.target !== b) p.style.display = "none"; };
+function setupPopup(buttonId, popupId) {
+    const button = document.getElementById(buttonId);
+    const popup = document.getElementById(popupId);
+    const closeBtn = popup.querySelector("button");
+
+    button.addEventListener("click", e => {
+        e.stopPropagation();
+        document.querySelectorAll(".popup-info").forEach(p => {
+            p.classList.remove("show");
+            p.style.display = "none";
+        });
+        popup.style.display = "block";
+        requestAnimationFrame(() => popup.classList.add("show"));
+    });
+
+    closeBtn.addEventListener("click", () => {
+        popup.classList.remove("show");
+        setTimeout(() => popup.style.display = "none", 200);
+    });
 }
 
 setupPopup("info-button","info-popup");
@@ -230,10 +240,20 @@ setupPopup("benefits-button","benefits-popup");
 setupPopup("attendance-button","attendance-popup");
 setupPopup("homechecks-button","homechecks-popup");
 setupPopup("digital-button","digital-popup");
+setupPopup("summary-button","summary-popup");
+
+document.addEventListener("click", () => {
+    document.querySelectorAll(".popup-info").forEach(p => {
+        p.classList.remove("show");
+        p.style.display = "none";
+    });
+});
 </script>
 
 </body>
 </html>
+
+
 
 
 
