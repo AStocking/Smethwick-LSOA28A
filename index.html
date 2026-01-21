@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Smethwick LSOA Map</title>
 
+<!-- qgis2web CSS -->
 <link rel="stylesheet" href="./resources/ol.css">
 <link rel="stylesheet" href="resources/fontawesome-all.min.css">
 <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
@@ -16,201 +16,232 @@
 <style>
 html, body {
     background-color: #ffffff;
+    margin: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
 }
 
-/* Map styling */
-#map {
-    width: 100%;
+/* Main layout */
+.container {
+    display: flex;
     height: 100vh;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-/* Title bar with popups */
+/* Map + title */
+.map-wrapper {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 600px;
+}
+
+/* Title bar with popup icons */
 .map-title {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: white;
-    padding: 10px 12px;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    z-index: 2000;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
 }
-
-.map-title strong { display:block; margin-bottom:6px; }
 
 .map-title span {
-    width: 34px; height: 34px;
-    font-size: 18px;
-    display: inline-flex; align-items:center; justify-content:center;
-    border-radius:50%;
-    background:#fff; border:1px solid #ccc;
-    cursor:pointer;
-    margin-right:4px;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
-/* Popup colors */
-#info-button { color:#007bff; }
-#benefits-button { color:#28a745; }
-#attendance-button { color:#ffc107; }
-#homechecks-button { color:#6f42c1; }
-#digital-button { color:#17a2b8; }
+/* Individual icon colors */
+#info-button { color: #007bff; }
+#benefits-button { color: #28a745; }
+#attendance-button { color: #ffc107; }
+#homechecks-button { color: #6f42c1; }
+#digital-button { color: #17a2b8; }
 
-/* Popup container */
+/* Map container */
+#map {
+    flex: 1;
+    width: 100%;
+}
+
+/* Side image panel */
+.side-image {
+    flex: 1;
+    height: 100%;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #f8f8f8;
+    overflow-y: scroll;
+}
+.side-image img {
+    width: 100%;
+    display: block;
+}
+
+/* Popup styling */
 .popup-info {
     position: absolute;
-    top: 50px;
+    top: 100%;
     left: 0;
-    width: 480px;
-    max-height:70vh;
-    overflow-y:auto;
-    background:white;
-    border:1px solid #ccc;
-    border-radius:6px;
-    padding:14px;
-    box-shadow:0 4px 8px rgba(0,0,0,0.3);
-    display:none;
-    z-index:2100;
+    width: 400px;
+    max-height: 60vh;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 1000;
 }
+.popup-info button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Popup button colors */
+#info-popup button { background-color: #007bff; }
+#benefits-popup button { background-color: #28a745; }
+#attendance-popup button { background-color: #ffc107; }
+#homechecks-popup button { background-color: #6f42c1; }
+#digital-popup button { background-color: #17a2b8; }
 
-.popup-info h3 { margin-top:0; }
-.popup-info button { margin-top:12px; }
+/* Responsive for small screens */
+@media (max-width: 700px) {
+    .container { flex-direction: column; }
+    .map-wrapper, .side-image { min-width: 100%; height: 50vh; }
+    .popup-info { width: 90%; left: 5%; top: 120%; }
+}
 </style>
 </head>
 
 <body>
 
-<div id="map">
-    <div id="popup" class="ol-popup">
-        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content"></div>
-    </div>
-</div>
+<div class="container">
 
-<!-- Top-left title bar with icons -->
-<div class="map-title">
-<strong>LSOA 028A – Smethwick</strong>
-<span id="info-button" title="IMD 2025">ℹ️</span>
-<span id="benefits-button" title="Benefits">💷</span>
-<span id="attendance-button" title="School Attendance">🎓</span>
-<span id="homechecks-button" title="Home Checks">🏠</span>
-<span id="digital-button" title="Digital Propensity">💻</span>
-</div>
+    <!-- Map + title -->
+    <div class="map-wrapper">
+        <div class="map-title">
+            LSOA 28A – Smethwick
+            <span id="info-button" title="IMD 2025">ℹ️</span>
+            <span id="benefits-button" title="Benefits">💷</span>
+            <span id="attendance-button" title="School Attendance">🎓</span>
+            <span id="homechecks-button" title="Home Checks">🏠</span>
+            <span id="digital-button" title="Digital Propensity">💻</span>
 
-<!-- IMD 2025 Popup -->
-<div id="info-popup" class="popup-info">
+            <!-- IMD Popup -->
+            <div id="info-popup" class="popup-info">
 <h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
 <p><strong>Area:</strong> LSOA 028A, Smethwick, Sandwell<br>
 <strong>Dataset:</strong> English Indices of Deprivation 2025 (IMD25)</p>
 
 <h4>Key Insights</h4>
 <ol>
-<li><strong>Very High Relative Deprivation:</strong> Ranked in the bottom national deciles on the Index of Multiple Deprivation 2025 and among Sandwell’s most deprived LSOAs.</li>
-<li><strong>Main Contributors to Deprivation:</strong> Income and employment deprivation, child & older person income deprivation, challenges in education, health, housing, and services.</li>
-<li><strong>Broader Local Context:</strong> Smethwick shows high deprivation across multiple domains.</li>
+<li><strong>Very High Relative Deprivation:</strong> Ranked in the bottom national deciles and among Sandwell’s most deprived LSOAs.</li>
+<li><strong>Main Contributors:</strong> Income & employment deprivation, child & older person income deprivation, challenges in education, health, housing, services.</li>
+<li><strong>Broader Context:</strong> Smethwick shows high deprivation across multiple domains.</li>
 </ol>
 
-<h4>Implications for Policy & Planning</h4>
+<h4>Policy Implications</h4>
 <ul>
-<li>Priority for investment in income support, employment, education, and training</li>
-<li>Health & wellbeing programs needed</li>
-<li>Improve access to housing and services</li>
+<li>Priority for income support, employment, education, training</li>
+<li>Health & wellbeing programs</li>
+<li>Improve access to housing/services</li>
 </ul>
 
-<h4>One-Page Visual Briefing (IMD25)</h4>
-<table border="1" style="border-collapse:collapse; width:100%;">
+<h4>One-Page Visual Briefing</h4>
+<table class="info-table" border="1" style="border-collapse:collapse; width:100%;">
 <thead>
 <tr><th>Indicator</th><th>What It Shows</th><th>Interpretation</th></tr>
 </thead>
 <tbody>
-<tr><td>IMD25 Rank / Decile</td><td>Bottom deciles — highly deprived nationally</td><td>One of the more deprived neighbourhoods in the country.</td></tr>
-<tr><td>Income Deprivation (22.5%)</td><td>High compared to national average</td><td>Large proportion of residents on low incomes or benefit-dependent.</td></tr>
-<tr><td>Employment Deprivation (22.5%)</td><td>Elevated</td><td>Many working-age residents face barriers to employment.</td></tr>
-<tr><td>Education & Skills (13.5%)</td><td>Below average attainment/skills</td><td>Lower rates of higher qualification attainment.</td></tr>
-<tr><td>Health Deprivation & Disability (13.5%)</td><td>High risk</td><td>Adverse health outcomes more prevalent.</td></tr>
-<tr><td>Barriers to Housing & Services (9.3%)</td><td>Notably constrained</td><td>Issues with affordability/geographical access.</td></tr>
-<tr><td>Living Environment Deprivation (9.3%)</td><td>Poorer environment</td><td>Housing quality and outdoor environment challenges.</td></tr>
-<tr><td>Crime (9.3%)</td><td>Higher than average risk</td><td>Safety and crime concerns contribute to deprivation.</td></tr>
+<tr><td>IMD25 Rank / Decile</td><td>Bottom deciles — highly deprived nationally</td><td>One of the more deprived neighbourhoods</td></tr>
+<tr><td>Income Deprivation (22.5%)</td><td>High</td><td>Large proportion low income/benefit dependent</td></tr>
+<tr><td>Employment Deprivation (22.5%)</td><td>Elevated</td><td>Many working-age residents face barriers to employment</td></tr>
+<tr><td>Education & Skills (13.5%)</td><td>Below average</td><td>Lower rates of higher qualification attainment</td></tr>
+<tr><td>Health & Disability (13.5%)</td><td>High risk</td><td>Adverse health outcomes more prevalent</td></tr>
+<tr><td>Barriers Housing/Services (9.3%)</td><td>Constrained</td><td>Issues with affordability/geographical access</td></tr>
+<tr><td>Living Environment (9.3%)</td><td>Poorer</td><td>Housing quality & outdoor environment challenges</td></tr>
+<tr><td>Crime (9.3%)</td><td>Higher risk</td><td>Safety & crime concerns</td></tr>
 </tbody>
 </table>
-
 <p><strong>Data Source:</strong> English Indices of Deprivation 2025, MHCLG.</p>
 <button>Close</button>
 </div>
 
-<!-- Benefits Popup -->
-<div id="benefits-popup" class="popup-info">
+            <!-- Benefits Popup -->
+            <div id="benefits-popup" class="popup-info">
 <h3>📋 Sandwell 028A – Benefits Summary (May 2025)</h3>
-<p>High levels of benefit dependency across working-age and older residents, with worklessness, disability, and income support needs.</p>
-
+<p>High levels of benefit dependency across working-age and older residents.</p>
 <h4>Headline Facts</h4>
 <ul>
 <li>Population: 2,231</li>
-<li>Total benefit claimants: 925 (41.5%)</li>
+<li>Total claimants: 925 (41.5%)</li>
 </ul>
-
 <h4>Working Age – Out of Work</h4>
 <ul>
 <li>Out-of-work claimants: 442 (19.8%)</li>
-<li>Universal Credit (out of work): 370 (16.6%)</li>
-<li>Incapacity benefits: 58 (2.6%)</li>
+<li>Universal Credit: 370 (16.6%)</li>
+<li>Incapacity: 58 (2.6%)</li>
 </ul>
-
 <h4>State Pension Age</h4>
 <ul>
 <li>SPA claimants: 283 (12.7%)</li>
 <li>State Pension + disability/credit/benefits common</li>
 </ul>
-
-<p>~2 in 5 residents receive a DWP benefit, indicating sustained income vulnerability.</p>
 <button>Close</button>
 </div>
 
-<!-- Attendance Popup -->
-<div id="attendance-popup" class="popup-info">
+            <!-- School Attendance -->
+            <div id="attendance-popup" class="popup-info">
 <h3>🎓 School Attendance Overview</h3>
-
-<p>The dataset reflects school attendance for children in the LSOA across multiple years.</p>
-
+<p>Dataset reflects attendance for children across multiple years.</p>
 <h4>2024</h4>
 <ul>
 <li>Total sessions: ~85,000–90,000</li>
 <li>Average attendance: ~92%</li>
 <li>Unauthorized absences: 2–5%</li>
 <li>Authorized absences: 5–10%</li>
-<li>Trends: Most children maintain attendance above 90%, though a few show chronic absences.</li>
 </ul>
-
 <h4>2025</h4>
 <ul>
 <li>Total sessions: similar scale to 2024</li>
 <li>Average attendance: ~90–91%</li>
 <li>Unauthorized absences: 3–6%, some exceeding 30%</li>
 <li>Authorized absences: 5–8%</li>
-<li>Trends: More children with 80–90% attendance; some below 60%</li>
 </ul>
-
 <h4>Overall Insights</h4>
 <ul>
-<li>High overall attendance</li>
-<li>Low levels of unauthorized absence</li>
+<li>High attendance overall</li>
+<li>Low unauthorized absence</li>
 <li>Slight decline in 2025</li>
-<li>Variability across students</li>
+<li>Some variability among students</li>
 <li>Authorized absences predominate</li>
 </ul>
-
 <button>Close</button>
 </div>
 
-<!-- Home Checks Popup -->
-<div id="homechecks-popup" class="popup-info">
+            <!-- Home Checks -->
+            <div id="homechecks-popup" class="popup-info">
 <h3>🏠 Home Visits – Headline Facts</h3>
 <ul>
-<li>Total records: ~150–160 visits</li>
+<li>Total records: ~150–160</li>
 <li>Visits within last 12 months: ~75–80%</li>
-<li>Older visits (>365 days): ~20–25%</li>
+<li>Older visits: ~20–25%</li>
 <li>Shortest gap: 22 days</li>
 <li>Longest gap: 1,419 days (~3.9 years)</li>
-<li>Most common range: 200–700 days</li>
 </ul>
 <h4>Key Observations</h4>
 <ul>
@@ -221,31 +252,49 @@ html, body {
 <button>Close</button>
 </div>
 
-<!-- Digital Popup -->
-<div id="digital-popup" class="popup-info">
+            <!-- Digital -->
+            <div id="digital-popup" class="popup-info">
 <h3>💻 Digital Propensity Overview – LSOA 028A</h3>
-<p>Measures likelihood households can confidently use online services.</p>
 <ul>
 <li>DPI Score: 0.913</li>
 <li>Sandwell Average: ~0.933</li>
-<li>Highest Sandwell: 0.979</li>
-<li>Lowest Sandwell: 0.880</li>
+<li>Highest: 0.979</li>
+<li>Lowest: 0.880</li>
 </ul>
-<p>LSOA 028A is below Sandwell average; households may have difficulty with digital services.</p>
+<p>Below average; households may have difficulty with online services.</p>
 <h4>Implications</h4>
 <ul>
-<li>Provide offline or supported alternatives</li>
+<li>Provide offline/supported alternatives</li>
 <li>Digital skills programs recommended</li>
 </ul>
 <button>Close</button>
 </div>
 
-<!-- ORIGINAL qgis2web SCRIPTS -->
+        </div>
+
+        <div id="map">
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side image panel -->
+    <div class="side-image">
+        <div id="layers-label">ONS Profile</div>
+        <img src="Smethwick ONS.png" alt="Smethwick ONS">
+    </div>
+
+</div>
+
+<!-- qgis2web scripts -->
 <script src="resources/qgis2web_expressions.js"></script>
 <script src="./resources/functions.js"></script>
 <script src="./resources/ol.js"></script>
 <script src="./resources/ol-layerswitcher.js"></script>
 <script src="resources/photon-geocoder-autocomplete.min.js"></script>
+
 <script src="layers/SmethwickCanals_0.js"></script>
 <script src="layers/LSOA28ASmethwick_1.js"></script>
 <script src="layers/SmethwickMetro_2.js"></script>
@@ -282,7 +331,7 @@ html, body {
 <script src="./resources/Autolinker.min.js"></script>
 <script src="./resources/qgis2web.js"></script>
 
-<!-- POPUP TOGGLE SCRIPT -->
+<!-- Popup JS -->
 <script>
 function setupPopup(buttonId,popupId){
     const btn=document.getElementById(buttonId);
@@ -290,7 +339,9 @@ function setupPopup(buttonId,popupId){
     const close=pop.querySelector("button");
     btn.addEventListener("click",e=>{
         e.stopPropagation();
-        document.querySelectorAll(".popup-info").forEach(p=>p.style.display="none");
+        document.querySelectorAll(".popup-info").forEach(p=>{
+            p.style.display="none";
+        });
         pop.style.display="block";
     });
     close.addEventListener("click",()=>pop.style.display="none");
@@ -300,11 +351,16 @@ setupPopup("benefits-button","benefits-popup");
 setupPopup("attendance-button","attendance-popup");
 setupPopup("homechecks-button","homechecks-popup");
 setupPopup("digital-button","digital-popup");
-document.addEventListener("click",()=>document.querySelectorAll(".popup-info").forEach(p=>p.style.display="none"));
+
+document.addEventListener("click",()=>{
+    document.querySelectorAll(".popup-info").forEach(p=>p.style.display="none");
+});
 </script>
 
 </body>
 </html>
+
+
 
 
 
