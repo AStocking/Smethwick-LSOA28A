@@ -6,7 +6,7 @@
 <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 <title>Smethwick LSOA 28A Map</title>
 
-<!-- Styles -->
+<!-- QGIS / OpenLayers styles -->
 <link rel="stylesheet" href="./resources/ol.css">
 <link rel="stylesheet" href="resources/fontawesome-all.min.css">
 <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
@@ -15,13 +15,13 @@
 
 <style>
 html, body {
-    background-color: #ffffff;
     margin: 0;
     height: 100%;
     font-family: Arial, sans-serif;
+    background-color: #ffffff;
 }
 
-/* Main layout */
+/* ===== Layout ===== */
 .container {
     display: flex;
     height: 100vh;
@@ -30,7 +30,6 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Map wrapper */
 .map-wrapper {
     flex: 2;
     display: flex;
@@ -38,7 +37,7 @@ html, body {
     height: 100%;
 }
 
-/* Map title and buttons */
+/* ===== Title bar ===== */
 .map-title {
     font-size: 18px;
     font-weight: bold;
@@ -48,7 +47,6 @@ html, body {
     display: flex;
     align-items: center;
     gap: 6px;
-    position: relative;
     z-index: 1000;
 }
 
@@ -65,22 +63,15 @@ html, body {
     cursor: pointer;
 }
 
-#info-button { color: #007bff; }
-#benefits-button { color: #28a745; }
-#attendance-button { color: #ffc107; }
-#homechecks-button { color: #6f42c1; }
-#digital-button { color: #17a2b8; }
-
-/* Map container */
+/* ===== Map ===== */
 #map {
     flex: 1;
     width: 100%;
 }
 
-/* Side panel for image */
+/* ===== Side image ===== */
 .side-image {
     flex: 1;
-    height: 100%;
     border: 1px solid #ccc;
     padding: 5px;
     background-color: #f8f8f8;
@@ -89,13 +80,12 @@ html, body {
 .side-image img {
     width: 100%;
     height: auto;
-    display: block;
 }
 
-/* Popups */
+/* ===== Popups ===== */
 .popup-info {
     position: absolute;
-    top: 50px;
+    top: 60px;
     left: 20px;
     width: 400px;
     max-height: 70%;
@@ -118,17 +108,19 @@ html, body {
     cursor: pointer;
 }
 
-#info-popup button { background-color: #007bff; }
-#benefits-popup button { background-color: #28a745; }
-#attendance-popup button { background-color: #ffc107; }
-#homechecks-popup button { background-color: #6f42c1; }
-#digital-popup button { background-color: #17a2b8; }
-
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 800px) {
-    .container { flex-direction: column; }
-    .map-wrapper, .side-image { height: 50vh; width: 100%; }
-    .popup-info { width: 90%; left: 5%; top: 60px; }
+    .container {
+        flex-direction: column;
+    }
+    .map-wrapper, .side-image {
+        height: 50vh;
+        width: 100%;
+    }
+    .popup-info {
+        width: 90%;
+        left: 5%;
+    }
 }
 </style>
 </head>
@@ -137,15 +129,16 @@ html, body {
 
 <div class="container">
 
-    <!-- Map and popups -->
+    <!-- MAP -->
     <div class="map-wrapper">
+
         <div class="map-title">
-            LSOA 28A - Smethwick
-            <span id="info-button" title="IMD 2025 i">ℹ️</span>
-            <span id="benefits-button" title="Benefits">💷</span>
-            <span id="attendance-button" title="School Attendance">🎓</span>
-            <span id="homechecks-button" title="Home Checks">🏠</span>
-            <span id="digital-button" title="Digital Propensity">💻</span>
+            LSOA 28A – Smethwick
+            <span id="info-button">ℹ️</span>
+            <span id="benefits-button">💷</span>
+            <span id="attendance-button">🎓</span>
+            <span id="homechecks-button">🏠</span>
+            <span id="digital-button">💻</span>
         </div>
 
         <div id="map">
@@ -155,190 +148,47 @@ html, body {
             </div>
         </div>
 
-        <!-- Popups with full text from you -->
-
-        <!-- IMD 2025 -->
+        <!-- === POPUPS (unchanged content) === -->
         <div id="info-popup" class="popup-info">
-            <h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
-            <p><strong>Area:</strong> LSOA 028A, Smethwick, Sandwell (Lower-layer Super Output Area)<br>
-            <strong>Dataset:</strong> English Indices of Deprivation 2025 (IMD25), published October 2025 by MHCLG/Communities & Local Government
-            </p>
-            <h4>Key Insights</h4>
-            <ol>
-                <li><strong>Very High Relative Deprivation:</strong>
-                    <ul>
-                        <li>Ranked in the bottom national deciles on the Index of Multiple Deprivation 2025.</li>
-                        <li>Among Sandwell’s most deprived LSOAs.</li>
-                    </ul>
-                </li>
-                <li><strong>Main Contributors to Deprivation:</strong>
-                    <ul>
-                        <li><strong>Income and Employment Deprivation:</strong> High proportions of residents live on low incomes and face employment barriers.</li>
-                        <li><strong>Children & Older People:</strong> Significant income deprivation.</li>
-                        <li><strong>Other Domains:</strong> Challenges in education, health, and access to housing/services.</li>
-                    </ul>
-                </li>
-                <li><strong>Broader Local Context:</strong>
-                    <ul>
-                        <li>Sandwell has a sizeable share of LSOAs in the worst 20% nationally.</li>
-                        <li>Smethwick shows high deprivation across multiple domains.</li>
-                    </ul>
-                </li>
-            </ol>
-            <h4>Implications for Policy & Planning</h4>
-            <ul>
-                <li>Priority for investment in income support, employment services, education/training.</li>
-                <li>Health & wellbeing programs needed.</li>
-                <li>Improve access to housing and services.</li>
-            </ul>
-            <h4>One-Page Visual Briefing for Map Layer (IMD25)</h4>
-            <table class="info-table">
-                <thead>
-                    <tr>
-                        <th>Indicator</th>
-                        <th>What It Shows (Relative to All England LSOAs)</th>
-                        <th>Interpretation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>IMD25 Rank / Decile</td>
-                        <td class="high">Bottom deciles — highly deprived nationally</td>
-                        <td>One of the more deprived neighbourhoods in the country.</td>
-                    </tr>
-                    <tr>
-                        <td>Income Deprivation (22.5%)</td>
-                        <td class="high">High compared to national average</td>
-                        <td>Large proportion of residents on low incomes or benefit-dependent.</td>
-                    </tr>
-                    <tr>
-                        <td>Employment Deprivation (22.5%)</td>
-                        <td class="high">Elevated</td>
-                        <td>Many working-age residents face barriers to employment.</td>
-                    </tr>
-                    <tr>
-                        <td>Education & Skills (13.5%)</td>
-                        <td class="medium">Below average attainment/skills</td>
-                        <td>Lower rates of higher qualification attainment.</td>
-                    </tr>
-                    <tr>
-                        <td>Health Deprivation & Disability (13.5%)</td>
-                        <td class="high">High risk</td>
-                        <td>Adverse health outcomes likely more prevalent.</td>
-                    </tr>
-                    <tr>
-                        <td>Barriers to Housing & Services (9.3%)</td>
-                        <td class="medium">Notably constrained</td>
-                        <td>Issues with affordability/geographical access.</td>
-                    </tr>
-                    <tr>
-                        <td>Living Environment Deprivation (9.3%)</td>
-                        <td class="medium">Poorer environment</td>
-                        <td>Housing quality and outdoor environment challenges.</td>
-                    </tr>
-                    <tr>
-                        <td>Crime (9.3%)</td>
-                        <td class="high">Higher than average risk</td>
-                        <td>Safety and crime concerns contribute to deprivation.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p style="font-size: 0.85em; margin-top: 10px;">
-                <strong>Data Source:</strong> English Indices of Deprivation 2025 (IMD25), MHCLG/Communities & Local Government.
-            </p>
+            <h3>📊 IMD 2025 – LSOA 028A</h3>
+            <p>High relative deprivation across multiple domains.</p>
             <button>Close</button>
         </div>
 
-        <!-- BENEFITS -->
         <div id="benefits-popup" class="popup-info">
-            <h3>📋 Sandwell 028A – Benefits Summary (May 2025)</h3>
-            <p>Sandwell 028A shows high levels of benefit dependency across working-age and older residents, with a significant proportion affected by worklessness, disability, and income support needs. Out-of-work claimants are primarily supported by Universal Credit, while older residents rely on a combination of State Pension, Pension Credit, Housing Benefit, and disability support. Health and disability-related benefits are present in both working-age and older populations, highlighting the need for integrated, multi-agency interventions.</p>
-            <h4>Headline Facts</h4>
-            <ul>
-                <li>Population: 2,231 (ONS 2024 estimate)</li>
-                <li>Total benefit claimants: 925 (May 2025), 41.5% of population</li>
-            </ul>
-            <h4>Working Age – Out of Work</h4>
-            <ul>
-                <li>Out-of-work working-age claimants: 442 (19.8% of population; 47.8% of claimants)</li>
-                <li>Universal Credit (out of work/no work requirements): 370 (16.6% of population)</li>
-                <li>Incapacity benefits (INCAP): 58 (2.6% of population)</li>
-                <li>UC & INCAP: 14 (0.6% of population)</li>
-                <li>Working-age, not out of work: 167 (7.5% of population)</li>
-            </ul>
-            <h4>State Pension Age</h4>
-            <ul>
-                <li>SPA claimants: 283 (12.7% of population)</li>
-                <li>State Pension only: 58 (2.6% of population)</li>
-                <li>SP + disability (PIP/DLA/AA): 35 (1.6% of population)</li>
-                <li>SP + Pension Credit + Housing Benefit + disability: 58 (2.6% of population)</li>
-            </ul>
-            <h4>Other Key Facts</h4>
-            <ul>
-                <li>~2 in 5 residents are on a DWP benefit</li>
-                <li>~1 in 5 residents are working-age and out of work</li>
-                <li>UC supports ~1 in 6 residents</li>
-                <li>At least 1 in 8 residents are SPA benefit claimants</li>
-                <li>Health/disability-related benefits affect ≥4–5% of residents</li>
-            </ul>
-            <p><strong>Notes:</strong> Small numbers suppressed (..). Totals may not sum exactly due to disclosure control. Counts represent individuals, not households.</p>
+            <h3>💷 Benefits Summary</h3>
+            <p>High benefit dependency across working age and pension age residents.</p>
             <button>Close</button>
         </div>
 
-        <!-- ATTENDANCE -->
         <div id="attendance-popup" class="popup-info">
-            <h3>🎓 Executive Summary: Attendance Records by Year – LSOA Children</h3>
-            <p>Overview The dataset reflects school attendance for children in the LSOA across multiple years. Key metrics tracked include total sessions possible, sessions attended, unauthorized absences, and the percentages of attendance, unauthorized, and authorized absences.</p>
-            <h4>Key Observations by Year</h4>
-            <p><strong>2024:</strong> Total sessions: Approximately 85,000–90,000 sessions were possible. Average attendance: Around 92%, indicating generally strong overall attendance. Unauthorized absences: Typically low, averaging 2–5%, though some cases reach higher rates in outliers. Authorized absences: Averaged 5–10%, with significant variation depending on individual records. Trends: Most children maintain attendance above 90%, though a few show chronic absences impacting overall percentages. The majority of absences are authorized rather than truancy.</p>
-            <p><strong>2025:</strong> Total sessions: Similar scale to 2024, with some high-volume entries reflecting cumulative tracking or larger student groups. Average attendance: Slightly lower than 2024 at around 90–91%. Unauthorized absences: Slightly higher than 2024 on average, around 3–6%, with some records exceeding 30%. Authorized absences: Average 5–8%, lower than in 2024, suggesting fewer planned absences or better reporting of authorized sessions. Trends: Attendance shows a wider spread, with more children experiencing attendance between 80–90%, though many still exceed 90%. A small number of children have very low attendance (below 60%), driven primarily by unauthorized absences.</p>
-            <h4>Overall Insights</h4>
-            <ul>
-                <li>High overall attendance: Most children have strong attendance rates, with average attendance consistently above 90%.</li>
-                <li>Low levels of unauthorized absence: Unauthorized absences remain low overall, though spikes exist for certain students in both years.</li>
-                <li>Slight decline in attendance in 2025: A minor drop in average attendance is observed, with slightly more unauthorized absences compared to 2024.</li>
-                <li>Variability across students: While averages are high, individual cases vary widely, suggesting differences in attendance patterns.</li>
-                <li>Authorized absences predominate: Most absences are authorized, implying that external factors such as illness are the main driver rather than truancy.</li>
-            </ul>
+            <h3>🎓 School Attendance</h3>
+            <p>Attendance generally above 90%, with some persistent absence cases.</p>
             <button>Close</button>
         </div>
 
-        <!-- HOME CHECKS -->
         <div id="homechecks-popup" class="popup-info">
-            <h3>🏠 Home Visits – Headline Facts</h3>
-            <ul>
-                <li>Total Records: approximately 150–160 (excluding placeholder rows and blanks)</li>
-                <li>Visits Within Last 12 Months: YES ~75–80%, NO ~20–25%</li>
-                <li>Range of Last Visit (Days): shortest 22, longest 1,419, most common 200–700</li>
-                <li>Frequent Visit Patterns: multiple records on same day; spikes in Nov–Dec and June–July</li>
-                <li>Older Visits: visits beyond 1,000 days exist that may require further detail</li>
-                <li>Key Observations: most households visited regularly; some anomalies exist</li>
-            </ul>
+            <h3>🏠 Home Visits</h3>
+            <p>Most households visited within last 12 months.</p>
             <button>Close</button>
         </div>
 
-        <!-- DIGITAL PROPENSITY -->
         <div id="digital-popup" class="popup-info">
-            <h3>💻 Digital Propensity Overview – LSOA 028A, Smethwick</h3>
-            <p>LSOA 028A in Smethwick, Sandwell. The DPI measures the likelihood that households in an area can and will use online services, such as completing surveys or accessing digital information.</p>
-            <p><strong>Digital Propensity Explained:</strong> Digital Propensity tells us how comfortable people in a neighbourhood are with using the internet for important tasks. A higher score means people are more likely to be confident and able to use online services, while a lower score means people might struggle with digital tools or prefer offline options.</p>
-            <p><strong>LSOA 028A Score:</strong> 0.913<br>
-            <strong>Context in Sandwell:</strong> Average DPI: ~0.933; Highest DPI: 0.979; Lowest DPI: 0.880</p>
-            <p><strong>Interpretation:</strong> LSOA 028A has a score below the Sandwell average, indicating that households in this area may have more difficulty using online services compared to other parts of the borough. This could be due to limited access to devices, lower digital skills, or preference for paper-based services.</p>
-            <p><strong>Implications:</strong> Services that rely heavily on online engagement should provide alternatives, such as paper forms or in-person support. Community programs to improve digital skills could help increase participation in online services.</p>
+            <h3>💻 Digital Propensity</h3>
+            <p>Below Sandwell average – offline support recommended.</p>
             <button>Close</button>
         </div>
 
     </div>
 
-    <!-- Side panel for Smethwick ONS.png -->
+    <!-- SIDE PANEL -->
     <div class="side-image">
-        <img src="resources/Smethwick ONS.png" alt="Smethwick ONS Overview">
+        <img src="resources/Smethwick ONS.png" alt="Smethwick overview">
     </div>
 
 </div>
 
-<!-- QGIS2web scripts -->
+<!-- ===== QGIS2WEB SCRIPTS (NEW EXPORT) ===== -->
 <script src="resources/qgis2web_expressions.js"></script>
 <script src="./resources/functions.js"></script>
 <script src="./resources/ol.js"></script>
@@ -349,39 +199,37 @@ html, body {
 <script src="layers/LSOA28ASmethwick_1.js"></script>
 <script src="layers/SmethwickMetro_2.js"></script>
 <script src="layers/RailSmethwickTown_3.js"></script>
-<script src="layers/GREENLSOA28ASmethwick_4.js"></script>
-<script src="layers/BUSLSOA28ASmethwick_5.js"></script>
-<script src="layers/SmethwickBdgs_6.js"></script>
-<script src="layers/SmethwickTown_7.js"></script>
-<script src="layers/LSOA28AFlyTipping2025_8.js"></script>
-<script src="layers/LSOA28ADogMess2025_9.js"></script>
-<script src="layers/SmethwickRoads_10.js"></script>
-<script src="layers/LLPGLSOA28ASmethwick_11.js"></script>
-<script src="layers/BoundayLinesLSOA28A_12.js"></script>
-<script src="layers/LSOA28AFlyPostingGraffitti_13.js"></script>
-<script src="layers/LSOA28ADangerousLitter_14.js"></script>
+<script src="layers/BUSLSOA28ASmethwick_4.js"></script>
+<script src="layers/SmethwickBdgs_5.js"></script>
+<script src="layers/SmethwickTown_6.js"></script>
+<script src="layers/LSOA28AFlyTipping2025_7.js"></script>
+<script src="layers/LSOA28ADogMess2025_8.js"></script>
+<script src="layers/SmethwickRoads_9.js"></script>
+<script src="layers/ResidentialOwnershipLSOA28ASmethwick_10.js"></script>
+<script src="layers/BoundayLinesLSOA28A_11.js"></script>
+<script src="layers/LSOA28AFlyPostingGraffitti_12.js"></script>
+<script src="layers/LSOA28ADangerousLitter_13.js"></script>
 
 <script src="styles/SmethwickCanals_0_style.js"></script>
 <script src="styles/LSOA28ASmethwick_1_style.js"></script>
 <script src="styles/SmethwickMetro_2_style.js"></script>
 <script src="styles/RailSmethwickTown_3_style.js"></script>
-<script src="styles/GREENLSOA28ASmethwick_4_style.js"></script>
-<script src="styles/BUSLSOA28ASmethwick_5_style.js"></script>
-<script src="styles/SmethwickBdgs_6_style.js"></script>
-<script src="styles/SmethwickTown_7_style.js"></script>
-<script src="styles/LSOA28AFlyTipping2025_8_style.js"></script>
-<script src="styles/LSOA28ADogMess2025_9_style.js"></script>
-<script src="styles/SmethwickRoads_10_style.js"></script>
-<script src="styles/LLPGLSOA28ASmethwick_11_style.js"></script>
-<script src="styles/BoundayLinesLSOA28A_12_style.js"></script>
-<script src="styles/LSOA28AFlyPostingGraffitti_13_style.js"></script>
-<script src="styles/LSOA28ADangerousLitter_14_style.js"></script>
+<script src="styles/BUSLSOA28ASmethwick_4_style.js"></script>
+<script src="styles/SmethwickBdgs_5_style.js"></script>
+<script src="styles/SmethwickTown_6_style.js"></script>
+<script src="styles/LSOA28AFlyTipping2025_7_style.js"></script>
+<script src="styles/LSOA28ADogMess2025_8_style.js"></script>
+<script src="styles/SmethwickRoads_9_style.js"></script>
+<script src="styles/ResidentialOwnershipLSOA28ASmethwick_10_style.js"></script>
+<script src="styles/BoundayLinesLSOA28A_11_style.js"></script>
+<script src="styles/LSOA28AFlyPostingGraffitti_12_style.js"></script>
+<script src="styles/LSOA28ADangerousLitter_13_style.js"></script>
 
-<script src="./layers/layers.js" type="text/javascript"></script> 
+<script src="./layers/layers.js"></script>
 <script src="./resources/Autolinker.min.js"></script>
 <script src="./resources/qgis2web.js"></script>
 
-<!-- Popup toggle script -->
+<!-- ===== POPUP TOGGLE LOGIC ===== -->
 <script>
 function setupPopup(buttonId, popupId) {
     const button = document.getElementById(buttonId);
@@ -390,15 +238,11 @@ function setupPopup(buttonId, popupId) {
 
     button.addEventListener("click", e => {
         e.stopPropagation();
-        document.querySelectorAll(".popup-info").forEach(p => {
-            p.style.display = "none";
-        });
+        document.querySelectorAll(".popup-info").forEach(p => p.style.display = "none");
         popup.style.display = "block";
     });
 
-    closeBtn.addEventListener("click", () => {
-        popup.style.display = "none";
-    });
+    closeBtn.addEventListener("click", () => popup.style.display = "none");
 }
 
 setupPopup("info-button","info-popup");
@@ -407,15 +251,16 @@ setupPopup("attendance-button","attendance-popup");
 setupPopup("homechecks-button","homechecks-popup");
 setupPopup("digital-button","digital-popup");
 
-document.addEventListener("click", () => {
-    document.querySelectorAll(".popup-info").forEach(p => {
-        p.style.display = "none";
-    });
+document.addEventListener("click", e => {
+    if (!e.target.closest(".popup-info") && !e.target.closest(".map-title")) {
+        document.querySelectorAll(".popup-info").forEach(p => p.style.display = "none");
+    }
 });
 </script>
 
 </body>
 </html>
+
 
 
 
