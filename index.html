@@ -6,7 +6,6 @@
 <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 <title>Smethwick LSOA 28A Map</title>
 
-<!-- QGIS / OpenLayers styles -->
 <link rel="stylesheet" href="./resources/ol.css">
 <link rel="stylesheet" href="resources/fontawesome-all.min.css">
 <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
@@ -21,7 +20,6 @@ html, body {
     background-color: #ffffff;
 }
 
-/* ===== Layout ===== */
 .container {
     display: flex;
     height: 100vh;
@@ -34,10 +32,8 @@ html, body {
     flex: 2;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
-/* ===== Title bar ===== */
 .map-title {
     display: flex;
     justify-content: space-between;
@@ -53,7 +49,6 @@ html, body {
 .map-title-buttons {
     display: flex;
     gap: 6px;
-    flex-shrink: 0;
 }
 
 .map-title span {
@@ -67,16 +62,10 @@ html, body {
     background: #ffffff;
     border: 1px solid #ccc;
     cursor: pointer;
-    user-select: none;
 }
 
-/* ===== Map ===== */
-#map {
-    flex: 1;
-    width: 100%;
-}
+#map { flex: 1; }
 
-/* ===== Side image ===== */
 .side-image {
     flex: 1;
     border: 1px solid #ccc;
@@ -85,12 +74,8 @@ html, body {
     overflow-y: auto;
 }
 
-.side-image img {
-    width: 100%;
-    height: auto;
-}
+.side-image img { width: 100%; }
 
-/* ===== Popups ===== */
 .popup-info {
     position: absolute;
     top: 60px;
@@ -118,24 +103,14 @@ html, body {
 
 #info-popup button { background-color: #007bff; }
 #benefits-popup button { background-color: #28a745; }
-#attendance-popup button { background-color: #ffc107; }
+#attendance-popup button { background-color: #ffc107; color:#000; }
 #homechecks-popup button { background-color: #6f42c1; }
 #digital-popup button { background-color: #17a2b8; }
 #crime-popup button { background-color: #dc3545; }
 
-/* ===== Responsive ===== */
 @media (max-width: 800px) {
-    .container {
-        flex-direction: column;
-    }
-    .map-wrapper, .side-image {
-        height: 50vh;
-        width: 100%;
-    }
-    .popup-info {
-        width: 90%;
-        left: 5%;
-    }
+    .container { flex-direction: column; }
+    .popup-info { width: 90%; left: 5%; }
 }
 </style>
 </head>
@@ -143,8 +118,6 @@ html, body {
 <body>
 
 <div class="container">
-
-<!-- MAP -->
 <div class="map-wrapper">
 
 <div class="map-title">
@@ -166,67 +139,153 @@ html, body {
     </div>
 </div>
 
-<!-- ===== POPUPS ===== -->
+<!-- ================= FULL POPUPS (VERBATIM) ================= -->
 
 <!-- IMD -->
 <div id="info-popup" class="popup-info">
 <h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
-<p><strong>Area:</strong> LSOA 028A, Smethwick, Sandwell<br>
-<strong>Dataset:</strong> English Indices of Deprivation 2025</p>
+<p>
+<strong>Area:</strong> LSOA 028A, Smethwick, Sandwell (Lower-layer Super Output Area)<br>
+<strong>Dataset:</strong> English Indices of Deprivation 2025 (IMD25), published October 2025 by MHCLG/Communities & Local Government
+</p>
 
+<h4>Key Insights</h4>
 <ol>
-<li>Only 5% of neighbourhoods in England are more deprived than Sandwell 028A.</li>
-<li>Top 4% most deprived for Income.</li>
-<li>Top 7% for Employment.</li>
-<li>Top 8% for Health and Disability.</li>
-<li>Top 8% for Education and Skills.</li>
-<li>Top 10% for Living Environment.</li>
-<li>Top 13% for Crime.</li>
-<li>Top 16% for Barriers to Housing.</li>
+<li>Only 5% of neighbourhoods in England are more deprived than Sandwell 028A (ranked 1,651 out of 33,755 neighbourhoods).</li>
+<li>Most deprived in the <strong>Income domain</strong> (top 4%).</li>
+<li>Top 7% for <strong>Employment</strong>.</li>
+<li>Top 8% for <strong>Health and Disability</strong>.</li>
+<li>Top 8% for <strong>Education and Skills</strong>.</li>
+<li>Top 10% for <strong>Living Environment</strong>.</li>
+<li>Top 13% for <strong>Crime</strong>.</li>
+<li>Top 16% for <strong>Barriers to Housing</strong>.</li>
 </ol>
 <button>Close</button>
 </div>
 
-<!-- BENEFITS -->
+<!-- BENEFITS (FULL) -->
 <div id="benefits-popup" class="popup-info">
 <h3>📋 Sandwell 028A – Benefits Summary (May 2025)</h3>
-<p>Sandwell 028A shows high levels of benefit dependency across working-age and older residents.</p>
-<button>Close</button>
-</div>
+<p>Sandwell 028A shows high levels of benefit dependency across working-age and older residents, with a significant proportion affected by worklessness, disability, and income support needs. Out-of-work claimants are primarily supported by Universal Credit, while older residents rely on a combination of State Pension, Pension Credit, Housing Benefit, and disability support. Health and disability-related benefits are present in both working-age and older populations, highlighting the need for integrated, multi-agency interventions.</p>
 
-<!-- ATTENDANCE -->
-<div id="attendance-popup" class="popup-info">
-<h3>🎓 Attendance Summary</h3>
-<p>Average attendance remains above 90%.</p>
-<button>Close</button>
-</div>
-
-<!-- HOME CHECKS -->
-<div id="homechecks-popup" class="popup-info">
-<h3>🏠 Home Visits</h3>
+<h4>Headline Facts</h4>
 <ul>
-<li>Total records: ~150–160</li>
+<li>Population: 2,231 (ONS 2024 estimate)</li>
+<li>Total benefit claimants: 925 (May 2025), 41.5% of population</li>
+</ul>
+
+<h4>Working Age – Out of Work</h4>
+<ul>
+<li>Out-of-work working-age claimants: 442 (19.8%)</li>
+<li>Universal Credit (out of work): 370</li>
+<li>Incapacity benefits: 58</li>
+<li>UC & INCAP: 14</li>
+<li>Working-age not out of work: 167</li>
+</ul>
+
+<h4>State Pension Age</h4>
+<ul>
+<li>SPA claimants: 283</li>
+<li>State Pension only: 58</li>
+<li>SP + disability: 35</li>
+<li>SP + PC + HB + disability: 58</li>
+</ul>
+
+<h4>Other Key Facts</h4>
+<ul>
+<li>~2 in 5 residents on a DWP benefit</li>
+<li>~1 in 5 residents working-age and out of work</li>
+<li>UC supports ~1 in 6 residents</li>
+<li>At least 1 in 8 residents are SPA claimants</li>
+</ul>
+
+<p><strong>Notes:</strong> Totals may not sum due to disclosure control.</p>
+<button>Close</button>
+</div>
+
+<!-- ATTENDANCE (FULL) -->
+<div id="attendance-popup" class="popup-info">
+<h3>🎓 Executive Summary: Attendance Records by Year – LSOA Children</h3>
+<p>Overview: The dataset reflects school attendance for children in the LSOA across multiple years. Key metrics tracked include total sessions possible, sessions attended, unauthorized absences, and the percentages of attendance, unauthorized, and authorized absences.</p>
+
+<h4>Key Observations by Year</h4>
+<p><strong>2024:</strong> Total sessions: Approximately 85,000–90,000. Average attendance: ~92%. Unauthorized absences: 2–5%. Authorized absences: 5–10%. Most children maintain attendance above 90%, a few show chronic absences.</p>
+<p><strong>2025:</strong> Total sessions: Similar scale to 2024. Average attendance: ~90–91%. Unauthorized absences: 3–6%. Authorized absences: 5–8%. Attendance shows a wider spread; some children below 60%.</p>
+
+<h4>Overall Insights</h4>
+<ul>
+<li>High overall attendance</li>
+<li>Low unauthorized absences</li>
+<li>Slight decline in 2025</li>
+<li>Variability across students</li>
+<li>Authorized absences predominate</li>
 </ul>
 <button>Close</button>
 </div>
 
-<!-- DIGITAL -->
+<!-- HOME CHECKS (FULL) -->
+<div id="homechecks-popup" class="popup-info">
+<h3>🏠 Home Visits – Headline Facts</h3>
+<ul>
+<li>Total Records: ~150–160 (excluding placeholders)</li>
+<li>Visits Within Last 12 Months: YES ~75–80%, NO ~20–25%</li>
+<li>Range of Last Visit (Days): 22–1,419</li>
+<li>Frequent Visit Patterns: spikes Nov–Dec & June–July</li>
+<li>Older Visits: visits beyond 1,000 days exist</li>
+<li>Key Observations: most households visited regularly; some anomalies</li>
+</ul>
+<button>Close</button>
+</div>
+
+<!-- DIGITAL (FULL) -->
 <div id="digital-popup" class="popup-info">
-<h3>💻 Digital Propensity</h3>
-<p>Score: 0.913 (below Sandwell average)</p>
+<h3>💻 Digital Propensity Overview – LSOA 028A, Smethwick</h3>
+<p>The DPI measures the likelihood that households in an area can and will use online services.</p>
+<p><strong>LSOA 028A Score:</strong> 0.913<br>
+<strong>Sandwell Average:</strong> ~0.933</p>
+<p><strong>Interpretation:</strong> Below average; many residents may struggle with digital services.</p>
+<p><strong>Implications:</strong> Offline access and assisted digital remain essential.</p>
 <button>Close</button>
 </div>
 
-<!-- CRIME -->
+<!-- CRIME (FULL) -->
 <div id="crime-popup" class="popup-info">
-<h3>🚨 Crime Summary</h3>
-<p>Violence and ASB dominate.</p>
+<h3>🚨 Crime Summary – Sandwell 028A (Nov 2025)</h3>
+<p>West Midlands Police, LSOA 028A (E01010054)</p>
+
+<h4>Overall Crime Volume</h4>
+<ul>
+<li>Total incidents visible: ~35–40</li>
+<li>Incidents with unique IDs: ~25</li>
+</ul>
+
+<h4>Crime by Category</h4>
+<ul>
+<li>Violence and sexual offences: 10</li>
+<li>Anti-social behaviour: 5</li>
+<li>Drugs: 5</li>
+<li>Robbery: 3</li>
+<li>Theft from the person: 2</li>
+<li>Other categories: isolated incidents</li>
+</ul>
+
+<h4>Hotspots</h4>
+<ul>
+<li>Church Hill Street</li>
+<li>Vicarage Road</li>
+<li>Lowry Close</li>
+</ul>
+
+<h4>Outcomes</h4>
+<ul>
+<li>Under investigation or unresolved cases dominate</li>
+</ul>
+
 <button>Close</button>
 </div>
 
 </div>
 
-<!-- SIDE PANEL -->
 <div class="side-image">
 <div class="image-label">Office for National Statistics Profile Overview</div>
 <img src="resources/Smethwick ONS.png" alt="Smethwick overview">
@@ -234,31 +293,19 @@ html, body {
 
 </div>
 
-<!-- ===== SCRIPTS ===== -->
-<script src="resources/qgis2web_expressions.js"></script>
-<script src="./resources/functions.js"></script>
-<script src="./resources/ol.js"></script>
-<script src="./resources/ol-layerswitcher.js"></script>
-<script src="resources/photon-geocoder-autocomplete.min.js"></script>
-
-<script src="./layers/layers.js"></script>
-<script src="./resources/qgis2web.js"></script>
-
 <script>
 function setupPopup(buttonId, popupId) {
-    const button = document.getElementById(buttonId);
+    const btn = document.getElementById(buttonId);
     const popup = document.getElementById(popupId);
     const closeBtn = popup.querySelector("button");
 
-    button.addEventListener("click", e => {
+    btn.addEventListener("click", e => {
         e.stopPropagation();
-        document.querySelectorAll(".popup-info").forEach(p => p.style.display = "none");
-        popup.style.display = "block";
+        document.querySelectorAll(".popup-info").forEach(p => p.style.display="none");
+        popup.style.display="block";
     });
 
-    if (closeBtn) {
-        closeBtn.addEventListener("click", () => popup.style.display = "none");
-    }
+    if (closeBtn) closeBtn.addEventListener("click", () => popup.style.display="none");
 }
 
 setupPopup("info-button","info-popup");
@@ -270,25 +317,13 @@ setupPopup("crime-button","crime-popup");
 
 document.addEventListener("click", e => {
     if (!e.target.closest(".popup-info") && !e.target.closest(".map-title")) {
-        document.querySelectorAll(".popup-info").forEach(p => p.style.display = "none");
+        document.querySelectorAll(".popup-info").forEach(p => p.style.display="none");
     }
 });
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
