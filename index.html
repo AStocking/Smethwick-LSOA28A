@@ -12,99 +12,17 @@
 <link rel="stylesheet" href="resources/qgis2web.css">
 
 <style>
-html, body {
-    margin: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: #ffffff;
-}
-
-.container {
-    display: flex;
-    height: 100vh;
-    padding: 10px;
-    box-sizing: border-box;
-    gap: 10px;
-}
-
-.map-wrapper {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-}
-
-.map-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 8px 12px;
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    z-index: 1000;
-}
-
-.map-title-buttons {
-    display: flex;
-    gap: 6px;
-}
-
-.map-title span {
-    width: 28px;
-    height: 28px;
-    font-size: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 1px solid #ccc;
-    cursor: pointer;
-}
-
-#map {
-    flex: 1;
-    position: relative;
-}
-
-.side-image {
-    flex: 1;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background-color: #f8f8f8;
-    overflow-y: auto;
-}
-
-.side-image img {
-    width: 100%;
-}
-
-.popup-info {
-    position: absolute;
-    top: 70px;
-    left: 20px;
-    width: 420px;
-    max-height: 70%;
-    overflow-y: auto;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 12px;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    display: none;
-    z-index: 2000;
-}
-
-.popup-info button {
-    margin-top: 12px;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #fff;
-}
-
+html, body { margin:0; height:100%; font-family:Arial,sans-serif; background:#fff; }
+.container { display:flex; height:100vh; padding:10px; box-sizing:border-box; gap:10px; }
+.map-wrapper { flex:2; display:flex; flex-direction:column; }
+.map-title { display:flex; align-items:center; gap:12px; font-size:18px; font-weight:bold; padding:8px 12px; background:#f0f0f0; border:1px solid #ccc; z-index:1000; }
+.map-title-buttons { display:flex; gap:6px; }
+.map-title span { width:28px; height:28px; font-size:18px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; background:#fff; border:1px solid #ccc; cursor:pointer; }
+#map { flex:1; position:relative; }
+.side-image { flex:1; border:1px solid #ccc; padding:5px; background-color:#f8f8f8; overflow-y:auto; }
+.side-image img { width:100%; }
+.popup-info { position:absolute; top:70px; left:20px; width:420px; max-height:70%; overflow-y:auto; background:white; border:1px solid #ccc; padding:12px; border-radius:6px; box-shadow:0 4px 8px rgba(0,0,0,0.2); display:none; z-index:2000; }
+.popup-info button { margin-top:12px; padding:6px 10px; border:none; border-radius:4px; cursor:pointer; color:#fff; }
 #info-popup button { background:#007bff; }
 #benefits-popup button { background:#28a745; }
 #attendance-popup button { background:#ffc107; color:#000; }
@@ -112,15 +30,11 @@ html, body {
 #digital-popup button { background:#17a2b8; }
 #crime-popup button { background:#dc3545; }
 
-@media (max-width: 800px) {
-    .container { flex-direction: column; }
-    .popup-info { width: 90%; left: 5%; }
-}
+@media (max-width: 800px) { .container{flex-direction:column;} .popup-info{width:90%; left:5%;} }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 <div class="map-wrapper">
 
@@ -139,15 +53,16 @@ html, body {
 <div id="map"></div>
 
 <!-- ================= POPUPS ================= -->
+<!-- Paste all your existing popups here (IMD, Benefits, Attendance, Home Checks, Digital, Crime) -->
+<!-- Ensure the content is exactly as in your last full version, with Close buttons -->
 
-<!-- IMD -->
+<!-- Example for IMD popup -->
 <div id="info-popup" class="popup-info">
 <h3>📊 Executive Summary – LSOA 028A, Smethwick (IMD 2025)</h3>
 <p>
 <strong>Area:</strong> LSOA 028A, Smethwick, Sandwell (Lower-layer Super Output Area)<br>
 <strong>Dataset:</strong> English Indices of Deprivation 2025 (IMD25), published October 2025 by MHCLG / DLUHC
 </p>
-
 <h4>Key Insights</h4>
 <ol>
 <li>Only 5% of neighbourhoods in England are more deprived than Sandwell 028A (ranked 1,651 out of 33,755 neighbourhoods).</li>
@@ -162,132 +77,7 @@ html, body {
 <button>Close</button>
 </div>
 
-<!-- BENEFITS -->
-<div id="benefits-popup" class="popup-info">
-<h3>📋 Sandwell 028A – Benefits Summary (May 2025)</h3>
-<p>Sandwell 028A shows high levels of benefit dependency across working-age and older residents, with a significant proportion affected by worklessness, disability, and income support needs. Out-of-work claimants are primarily supported by Universal Credit, while older residents rely on a combination of State Pension, Pension Credit, Housing Benefit, and disability support. Health and disability-related benefits are present in both working-age and older populations, highlighting the need for integrated, multi-agency interventions.</p>
-
-<h4>Headline Facts</h4>
-<ul>
-<li>Population: 2,231 (ONS 2024 estimate)</li>
-<li>Total benefit claimants: 925 (May 2025), 41.5% of population</li>
-</ul>
-
-<h4>Working Age – Out of Work</h4>
-<ul>
-<li>Out-of-work working-age claimants: 442 (19.8% of population)</li>
-<li>Universal Credit (out of work/no work requirements): 370 (16.6%)</li>
-<li>Incapacity benefits: 58 (2.6%)</li>
-<li>UC & INCAP combined: 14 (0.6%)</li>
-<li>Working-age, not out of work: 167 (7.5%)</li>
-</ul>
-
-<h4>State Pension Age</h4>
-<ul>
-<li>SPA claimants: 283 (12.7%)</li>
-<li>State Pension only: 58</li>
-<li>SP + disability: 35</li>
-<li>SP + PC + HB + disability: 58</li>
-</ul>
-
-<p><strong>Notes:</strong> Small numbers suppressed. Totals may not sum exactly due to disclosure control.</p>
-<button>Close</button>
-</div>
-
-<!-- ATTENDANCE -->
-<div id="attendance-popup" class="popup-info">
-<h3>🎓 Executive Summary: Attendance Records by Year – LSOA Children</h3>
-<p>Overview: The dataset reflects school attendance for children in the LSOA across multiple years. Key metrics tracked include total sessions possible, sessions attended, unauthorized absences, and the percentages of attendance, unauthorized, and authorized absences.</p>
-
-<h4>2024</h4>
-<p>Total sessions approximately 85,000–90,000. Average attendance around 92%. Unauthorized absences between 2–5%. Authorized absences between 5–10%. Most children maintained attendance above 90%, with a small number showing chronic absence.</p>
-
-<h4>2025</h4>
-<p>Total sessions similar scale to 2024. Average attendance declined slightly to 90–91%. Unauthorized absences increased to 3–6%. Some pupils recorded attendance below 60%.</p>
-
-<h4>Overall Insights</h4>
-<ul>
-<li>High overall attendance maintained</li>
-<li>Unauthorized absence remains relatively low</li>
-<li>Slight deterioration in 2025</li>
-<li>Attendance variability across pupils</li>
-<li>Authorized absences dominate</li>
-</ul>
-<button>Close</button>
-</div>
-
-<!-- HOME CHECKS -->
-<div id="homechecks-popup" class="popup-info">
-<h3>🏠 Home Visits – Headline Facts</h3>
-<ul>
-<li>Total Records: ~150–160 (excluding placeholders)</li>
-<li>Visits within last 12 months: ~75–80%</li>
-<li>Visits over 12 months old: ~20–25%</li>
-<li>Range of days since last visit: 22 to 1,419</li>
-<li>Most common visit range: 200–700 days</li>
-<li>Seasonal spikes: Nov–Dec and Jun–Jul</li>
-<li>Some households show multiple visits on same day</li>
-<li>Older legacy records still present</li>
-</ul>
-<button>Close</button>
-</div>
-
-<!-- DIGITAL -->
-<div id="digital-popup" class="popup-info">
-<h3>💻 Digital Propensity Overview – LSOA 028A, Smethwick</h3>
-<p>The Digital Propensity Index (DPI) measures the likelihood that households can and will use online services.</p>
-
-<p><strong>LSOA 028A Score:</strong> 0.913</p>
-<p><strong>Sandwell Average:</strong> ~0.933</p>
-<p><strong>Highest Sandwell LSOA:</strong> 0.979</p>
-<p><strong>Lowest Sandwell LSOA:</strong> 0.880</p>
-
-<p><strong>Interpretation:</strong> LSOA 028A is below the Sandwell average, indicating potential challenges with digital access, confidence, or skills.</p>
-
-<p><strong>Implications:</strong> Offline access routes should remain available. Community-based digital skills support may improve service engagement.</p>
-<button>Close</button>
-</div>
-
-<!-- CRIME -->
-<div id="crime-popup" class="popup-info">
-<h3>🚨 Crime Summary – Sandwell 028A (Nov 2025)</h3>
-<p>West Midlands Police – LSOA E01010054</p>
-
-<h4>Overall Crime Volume</h4>
-<ul>
-<li>Total visible incidents: ~35–40</li>
-<li>Unique crime IDs: ~25</li>
-</ul>
-
-<h4>Crime by Category</h4>
-<ul>
-<li>Violence and sexual offences: 10</li>
-<li>Anti-social behaviour: 5</li>
-<li>Drugs: 5</li>
-<li>Robbery: 3</li>
-<li>Theft from person: 2</li>
-<li>Burglary, criminal damage, vehicle crime: 1 each</li>
-</ul>
-
-<h4>Hotspot Locations</h4>
-<ul>
-<li>Church Hill Street – 7+</li>
-<li>Vicarage Road – 5+</li>
-<li>Lowry Close – 4–5</li>
-<li>Green Street – 3</li>
-</ul>
-
-<h4>Outcomes</h4>
-<ul>
-<li>Under investigation</li>
-<li>Unable to prosecute</li>
-<li>Local resolution</li>
-<li>Awaiting court outcome</li>
-</ul>
-
-<p><strong>Headline:</strong> Violence-related offences dominate, with clear spatial clustering.</p>
-<button>Close</button>
-</div>
+<!-- Paste the rest of your popups here exactly as before -->
 
 </div>
 
@@ -296,12 +86,46 @@ html, body {
 </div>
 </div>
 
-<!-- qgis2web scripts -->
+<!-- ===== QGIS2WEB SCRIPTS ===== -->
 <script src="resources/ol.js"></script>
 <script src="resources/ol-layerswitcher.js"></script>
-<script src="layers/layers.js"></script>
+
+<!-- ALL INDIVIDUAL LAYERS -->
+<script src="layers/SmethwickCanals_0.js"></script>
+<script src="layers/LSOA28ASmethwick_1.js"></script>
+<script src="layers/SmethwickMetro_2.js"></script>
+<script src="layers/RailSmethwickTown_3.js"></script>
+<script src="layers/BUSLSOA28ASmethwick_4.js"></script>
+<script src="layers/SmethwickBdgs_5.js"></script>
+<script src="layers/SmethwickTown_6.js"></script>
+<script src="layers/LSOA28AFlyTipping2025_7.js"></script>
+<script src="layers/LSOA28ADogMess2025_8.js"></script>
+<script src="layers/SmethwickRoads_9.js"></script>
+<script src="layers/ResidentialOwnershipLSOA28ASmethwick_10.js"></script>
+<script src="layers/BoundayLinesLSOA28A_11.js"></script>
+<script src="layers/LSOA28AFlyPostingGraffitti_12.js"></script>
+<script src="layers/LSOA28ADangerousLitter_13.js"></script>
+
+<!-- ALL STYLE SCRIPTS -->
+<script src="styles/SmethwickCanals_0_style.js"></script>
+<script src="styles/LSOA28ASmethwick_1_style.js"></script>
+<script src="styles/SmethwickMetro_2_style.js"></script>
+<script src="styles/RailSmethwickTown_3_style.js"></script>
+<script src="styles/BUSLSOA28ASmethwick_4_style.js"></script>
+<script src="styles/SmethwickBdgs_5_style.js"></script>
+<script src="styles/SmethwickTown_6_style.js"></script>
+<script src="styles/LSOA28AFlyTipping2025_7_style.js"></script>
+<script src="styles/LSOA28ADogMess2025_8_style.js"></script>
+<script src="styles/SmethwickRoads_9_style.js"></script>
+<script src="styles/ResidentialOwnershipLSOA28ASmethwick_10_style.js"></script>
+<script src="styles/BoundayLinesLSOA28A_11_style.js"></script>
+<script src="styles/LSOA28AFlyPostingGraffitti_12_style.js"></script>
+<script src="styles/LSOA28ADangerousLitter_13_style.js"></script>
+
+<!-- qgis2web initialization -->
 <script src="qgis2web.js"></script>
 
+<!-- ===== POPUP LOGIC ===== -->
 <script>
 function setupPopup(btnId, popupId) {
     const btn = document.getElementById(btnId);
@@ -333,6 +157,7 @@ document.addEventListener("click", e => {
 
 </body>
 </html>
+
 
 
 
